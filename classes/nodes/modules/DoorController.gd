@@ -46,13 +46,11 @@ func _ready() -> void:
 				no_enabled_triggers_error()
 	
 	if door_opened:
-		print("change door state")
 		_animation_player_instance.play("Scene", -1, 0.0) #Make sure "Scene" is loaded before seeking
 		_animation_player_instance.stop()
 		_animation_player_instance.seek(border_time, true)
 
 func toggle_door(toggled_with_key, state : bool):
-	print("open door")
 	if state == false:
 		if _playing_animation_section:
 			await _animation_section_finished

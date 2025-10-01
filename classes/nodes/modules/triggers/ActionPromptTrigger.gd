@@ -23,9 +23,9 @@ var _show_prompt : bool = false: ##Determines whether the prompt is visible in U
 	set(x):
 		_show_prompt = x
 		if x == true and enabled:
-			GlobalPlayerUIState.set_prompt(Utility.get_action_key(trigger_action), get_prefix_text(), prompt_subject, prompt_suffix, true)
+			PlayerUIState.set_prompt(Utility.get_action_key(trigger_action), get_prefix_text(), prompt_subject, prompt_suffix, true)
 		else:
-			GlobalPlayerUIState.set_prompt("", "", "", "",false)
+			PlayerUIState.set_prompt("", "", "", "",false)
 		
 
 func get_prefix_text() -> String:
@@ -36,7 +36,7 @@ func get_prefix_text() -> String:
 
 
 func _input(event: InputEvent) -> void:
-	if _show_prompt and !Engine.is_editor_hint():
+	if _show_prompt and !PlayerState.is_sleeping:
 		if event.is_action(trigger_action) and event.is_pressed() and enabled:
 			get_viewport().set_input_as_handled()
 			trigger.emit(Utility.get_action_key(trigger_action))
@@ -52,7 +52,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if player_looking_at_area():
-		if GlobalPlayerState.get_distance_to_player(global_position) <= GlobalGameDefaults.standard_interaction_range:
+		if PlayerState.get_distance_to_player(global_position) <= GlobalGameDefaults.standard_interaction_range:
 			if _show_prompt == false:
 				_show_prompt = true
 		else:
@@ -62,7 +62,7 @@ func _process(delta: float) -> void:
 		
 
 func player_looking_at_area() -> bool: ##Returns whether the player is looking at any of the areas added as children to this [ActionPromptTrigger].
-	var player_looking_at = GlobalPlayerState.layer_4_raycast.get_collider()
+	var player_looking_at = PlayerState.layer_5_raycast.get_collider()
 	
 	for area in _areas:
 		if area == player_looking_at:

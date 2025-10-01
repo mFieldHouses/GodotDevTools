@@ -26,20 +26,7 @@ func _ready() -> void:
 	
 	world_3d = get_parent().get_parent().get_world_3d()
 	
-	if get_child(0) is Trigger:
-		get_child(0).trigger.connect(open_interface)
-	else:
-		printerr(self, " does not have a Trigger as first child and will not be interactable.")
-	GlobalGameState.interface_exited.connect(close_interface)
-	
-	var ui_instance = load("res://assets/scenes/ui/item_container_ui.tscn").instantiate()
-	ui_instance.setup()
-	interface = ui_instance
-	add_child(ui_instance)
-	
-func open_interface(key):
-	interface.show_container_interface("E")
-	GlobalGameState.open_interface(key)
+	setup_triggers(_start_exchange)
 
-func close_interface():
-	interface.hide_container_interface()
+func _start_exchange(_bogus):
+	PlayerState.exchange_items(parent_item_container, 0)
