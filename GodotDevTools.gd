@@ -5,10 +5,54 @@ var parameters_plugin
 
 var previous_item_action_binding_property_list
 
+var _create_item_button : Button
+
 func _enter_tree() -> void:
-	pass
-	#add_autoload_singleton("Utility", "res://addons/GodotDevTools/scripts/autoloads/Utility.gd")
-	#add_autoload_singleton("GameLogger", "res://addons/GodotDevTools/scripts/autoloads/GameLogger.gd")
+	_create_item_button = preload("res://addons/GodotDevTools/scenes/create_item_button.tscn").instantiate()
+	
+	add_tool_menu_item("Create item...", _open_item_creation_menu)
+	
+	
+func _open_item_creation_menu() -> void:
+	var _new_menu : Window = preload("res://addons/GodotDevTools/scenes/item_creation.tscn").instantiate()
+	_new_menu.close_requested.connect(func(): _new_menu.queue_free())
+	
+	add_child(_new_menu)
+	_new_menu.popup_centered(Vector2i(350,450))
+	_new_menu.create_item.connect(_create_item)
+	_new_menu.create_item.connect(func(x,y,z): _new_menu.queue_free())
+
+
+func _create_item(template : int, item_name : String, args : Array) -> void:
+	match template:
+		3:
+			var new_item_resource : DevicePartItemDescription = DevicePartItemDescription.new()
+			new_item_resource.category = args[1]
+			new_item_resource.part_subcategory = args[2]
+			new_item_resource.part_custom_category = args[3]
+			new_item_resource.item_category = GlobalEnums.ItemCategory.PART
+			new_item_resource.item_name = item_name
+			
+			var resource_path : String = "res://assets/resources/items/device_parts/" + get_category_name_by_id(args[1]) + "/" + item_name + ".tres"
+			ResourceSaver.save(new_item_resource, resource_path)
+			if args[0] == true: #whether we should start editing the resource and scene right away
+				EditorInterface.edit_resource(new_item_resource)
+				EditorInterface.select_file(resource_path)
+			
+
+func get_category_name_by_id(id : int) -> String:
+	match id:
+		1:
+			return "frames_casings"
+		2:
+			return "grips_handles"
+		3:
+			return "miscellaneous"
+		4:
+			return "modules"
+		_:
+			return "error"
+
 
 
 func _process(delta: float) -> void:
@@ -24,5 +68,6 @@ func _process(delta: float) -> void:
 		
 		previous_item_action_binding_property_list = property_value_list
 
+
 func _exit_tree() -> void:
-	pass
+	remove_tool_menu_item("Create item...")
