@@ -5,6 +5,8 @@ class_name ActionPromptTrigger
 
 ##Needs to have an [Area3D] with a [CollisionShape3D] as a child to function.
 
+@export_enum("Screenbound", "Spacebound") var display_mode : int = 0 ##Currently does nothing. To be implemented later.
+
 @export_enum("Single", "Multi-State") var mode : int = 0 ##Determines whether the prompt changes after triggering. [param Single] disables this behavior, and [param Multi-State] allows you to set an array that the prompt cycles through.
 @export var multi_state_list : Array[String]
 @export var multi_state_index : int = 0 ##Only change this if the starting state is an exception from the default, like a door being open upon load time.
@@ -12,7 +14,6 @@ class_name ActionPromptTrigger
 @export var prompt_prefix : String = "Interact" ##The action the player would perform, like "Open", "Talk with" etc. Will be written in regular font.
 @export var prompt_subject : String = "" ##The subject of the action, like "Button", "Door", "<NPC name>" etc. Will be written in bold font.
 @export var prompt_suffix : String = "" ##Any additional text after the subject. Will be written in regular font.
-#@export_enum("Floating", "Screen") var prompt_type = 0 ##The type of prompt that will show when the conditions are met for this prompt to show. [br] [param Floating] will place the prompt as a floating label at the origin position
 @export var trigger_action : String = "interact" ##Action, as named in project settings, that will emit [signal trigger].
 @export var trigger_key : String = "" ##If set, will overwrite trigger_action with this specific key.
 @export var override_interaction_distance : float = 0 ##Setting this to anything else than 0 will overwrite the standard interaction distance set by [GlobalGameDefaults].

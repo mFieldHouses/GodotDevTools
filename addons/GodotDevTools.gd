@@ -31,9 +31,23 @@ func _create_item(template : int, item_name : String, args : Array) -> void:
 			new_item_resource.part_subcategory = args[2]
 			new_item_resource.part_custom_category = args[3]
 			new_item_resource.item_category = GlobalEnums.ItemCategory.PART
-			new_item_resource.item_name = item_name
+			new_item_resource.item_name = item_name.to_snake_case()
 			
-			var resource_path : String = "res://assets/resources/items/device_parts/" + get_category_name_by_id(args[1]) + "/" + item_name + ".tres"
+			if args[4] == true: #whether we should also immediately create a device part scene
+				var new_scene_root : Node3D = Node3D.new()
+				var new_packed_scene : PackedScene = PackedScene.new()
+				var scene_save_path : String = "res://assets/scenes/device_parts/" + get_category_name_by_id(args[1]) + "/" + item_name.to_snake_case() + ".tscn"
+				
+				new_scene_root.name = item_name
+				new_packed_scene.pack(new_scene_root)
+				ResourceSaver.save(new_packed_scene, scene_save_path)
+				
+				if args[0] == true:
+					EditorInterface.open_scene_from_path(scene_save_path)
+				
+				new_item_resource.part_model_scene = load(scene_save_path)
+			
+			var resource_path : String = "res://assets/resources/items/device_parts/" + get_category_name_by_id(args[1]) + "/" + item_name.to_snake_case() + ".tres"
 			ResourceSaver.save(new_item_resource, resource_path)
 			if args[0] == true: #whether we should start editing the resource and scene right away
 				EditorInterface.edit_resource(new_item_resource)
@@ -42,14 +56,14 @@ func _create_item(template : int, item_name : String, args : Array) -> void:
 
 func get_category_name_by_id(id : int) -> String:
 	match id:
-		1:
+		0:
 			return "frames_casings"
-		2:
+		1:
 			return "grips_handles"
+		2:
+			return "modules"
 		3:
 			return "miscellaneous"
-		4:
-			return "modules"
 		_:
 			return "error"
 

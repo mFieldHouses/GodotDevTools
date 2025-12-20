@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://r7voytxkxqwi"]
 
-[ext_resource type="Script" uid="uid://2wx8gcdr7fdi" path="res://addons/GodotDevTools/scenes/item_creation.gd" id="1_0kxbp"]
+[ext_resource type="Script" uid="uid://2wx8gcdr7fdi" path="res://addons/GodotDevTools/addons/scenes/item_creation.gd" id="1_0kxbp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0kxbp"]
 bg_color = Color(0.21410316, 0.21410301, 0.21410301, 1)
@@ -48,7 +48,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 alignment = 1
 selected = 0
-item_count = 4
+item_count = 5
 popup/item_0/text = "Choose a creation template"
 popup/item_0/id = 0
 popup/item_0/disabled = true
@@ -59,6 +59,8 @@ popup/item_2/text = "Component"
 popup/item_2/id = 2
 popup/item_3/text = "Device Part"
 popup/item_3/id = 3
+popup/item_4/text = "Connector"
+popup/item_4/id = 4
 
 [node name="name" type="LineEdit" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -73,7 +75,6 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="simple_item" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/template_options"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -91,6 +92,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+
+[node name="create_scene" type="CheckBox" parent="Control/MarginContainer/VBoxContainer/template_options/component"]
+layout_mode = 2
+text = "Create component model scene"
+alignment = 1
+
+[node name="create_pin_layout_scene" type="CheckBox" parent="Control/MarginContainer/VBoxContainer/template_options/component"]
+layout_mode = 2
+text = "Create component pin scene"
+alignment = 1
 
 [node name="device_part" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/template_options"]
 visible = false
@@ -130,12 +141,33 @@ layout_mode = 2
 placeholder_text = "Custom category..."
 alignment = 1
 
+[node name="create_scene" type="CheckBox" parent="Control/MarginContainer/VBoxContainer/template_options/device_part"]
+layout_mode = 2
+text = "Create device part scene"
+alignment = 1
+
+[node name="connector" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/template_options"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="create_scene" type="CheckBox" parent="Control/MarginContainer/VBoxContainer/template_options/connector"]
+layout_mode = 2
+text = "Create device part scene"
+alignment = 1
+
 [node name="HSeparator2" type="HSeparator" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="create" type="Button" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
+disabled = true
 text = "Create Item"
 
 [node name="start_editing" type="CheckBox" parent="Control/MarginContainer/VBoxContainer"]

@@ -68,8 +68,18 @@ func visualise_point(point : Vector3, root_node_3d : Node3D, delay_time : float 
 		await get_tree().create_timer(delay_time).timeout
 		new_mesh_instance.queue_free()
 
-func get_children_of_type(node : Node, type : String) -> Array:
-	var result = []
+
+func visualise_signal_connection(_signal : Signal, _target_callable : Callable) -> void:
+	var _origin_3d_obj : Node3D = _signal.get_object()
+	var _target_3d_obj : Node3D = _target_callable.get_object()
+	
+	while _origin_3d_obj != Node3D:
+		pass
+		
+
+
+func get_children_of_type(node : Node, type : String) -> Array[Node]:
+	var result : Array[Node] = []
 	
 	for child in node.get_children():
 		if child.get_class() == type:
@@ -77,8 +87,8 @@ func get_children_of_type(node : Node, type : String) -> Array:
 	
 	return result
 
-func get_children_of_type_recursive(node : Node, type : String) -> Array:
-	var result = []
+func get_children_of_type_recursive(node : Node, type : String) -> Array[Node]:
+	var result : Array[Node] = []
 	
 	for child in get_children_recursive(node):
 		if child.get_class() == type:

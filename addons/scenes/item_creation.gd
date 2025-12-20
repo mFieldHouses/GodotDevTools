@@ -44,5 +44,6 @@ func _on_create_button_down() -> void:
 			args.append(_selected_device_part_category)
 			args.append(_selected_device_part_subcategory)
 			args.append(_selected_device_part_custom_subcategory)
+			args.append($Control/MarginContainer/VBoxContainer/template_options/device_part/create_scene.button_pressed)
 	
 	create_item.emit(_selected_template_id, $Control/MarginContainer/VBoxContainer/name.text, args)
