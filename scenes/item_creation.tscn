@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://r7voytxkxqwi"]
 
-[ext_resource type="Script" uid="uid://2wx8gcdr7fdi" path="res://addons/GodotDevTools/addons/scenes/item_creation.gd" id="1_0kxbp"]
+[ext_resource type="Script" uid="uid://2wx8gcdr7fdi" path="res://addons/GodotDevTools/scenes/item_creation.gd" id="1_0kxbp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0kxbp"]
 bg_color = Color(0.21410316, 0.21410301, 0.21410301, 1)
